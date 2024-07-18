@@ -27,9 +27,12 @@
       backgroundAlpha: 0.00
       })
 
-      const main = document.querySelector('main')
-      console.log('main:',main);
-      main.style.opacity = 1
+      setTimeout(() => {
+        const main = document.querySelector('main')
+        console.log('main:',main);
+        main.style.opacity = 1
+        main.style.filter = 'blur(0px)'
+      }, 1000)
     }) 
     </script>
   </head>
@@ -37,8 +40,8 @@
     <div id="vanta"</div>
     <main>
       <header>
-        <img src="./images/mikio.jpeg" />
-        <h1>@mikio_kamura</h1>
+        <img src="./images/mikio.jpg" />
+        <h1>mikio_kamura</h1>
       </header>
       <ul>
         <li>
