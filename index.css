@@ -6,7 +6,7 @@ html {
 }
 
 body {
-  background: url(./images/hand.jpeg) repeat center center fixed;
+  background: url(./images/hand.jpg) repeat center center fixed;
   background-size: cover;
 }
 
@@ -17,6 +17,13 @@ body {
   width: 100%;
   height: 100%;
 }
+
+main {
+  position: relative;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
 header {
   margin-top: 4em;
   text-align: center;
