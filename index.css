@@ -28,7 +28,7 @@ main {
 }
 
 .profile {
-  margin-top: 8em;
+  margin-top: min(200px, 10vh);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -97,7 +97,7 @@ ul>li:nth-child(2) {
 
 ul>li:nth-child(3) {
   position: absolute;
-  bottom: -270%;
+  bottom: -10vh;
   right: 44%;
   transform: scale(0.7);
 }
@@ -111,7 +111,7 @@ ul>li:nth-child(4) {
 
 ul>li:nth-child(5) {
   position: absolute;
-  bottom: -550%;
+  bottom: -20vh;
   right: 38%;
   transform: scale(0.7);
   background-color: #fff0;
