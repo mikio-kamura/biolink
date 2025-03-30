@@ -152,14 +152,14 @@ ul>p:hover {
 
 ul>p:nth-child(1) {
   position: absolute;
-  top: -120%;
+  top: -90%;
   left: 20%;
-  transform: rotate(10deg) scale(1.6);
+  transform: rotate(10deg) scale(0.6);
 }
 
 ul>p:nth-child(2) {
   position: absolute;
-  top: 100%;
+  top: 50%;
   left: 40%;
   transform: rotate(-10deg) scale(1.6);
 }
@@ -168,13 +168,13 @@ ul>p:nth-child(3) {
   position: absolute;
   bottom: -10vh;
   right: 44%;
-  transform: rotate(-5deg) scale(1.6);
+  transform: rotate(-5deg) scale(0.6);
 }
 
 ul>p:nth-child(4) {
   position: absolute;
   bottom: -200%;
-  right: 33%;
+  right: 30%;
   transform: rotate(5deg) scale(1.6);
 }
 
@@ -183,7 +183,7 @@ ul>p:nth-child(5) {
   top: 50%;
   right: 15%;
   z-index: 1;
-  transform: rotate(5deg) scale(1.6);
+  transform: rotate(5deg) scale(0.6);
 }
 
 a {
