@@ -43,6 +43,168 @@ div>img {
   box-shadow: rgb(28 28 100 / 24%) 0px 0px 2px 2px;
 }
 
+.contact-trigger {
+  position: relative;
+  display: inline-block;
+  width: 70%;
+  max-width: 350px;
+  cursor: pointer;
+  border-radius: 85%;
+  overflow: hidden;
+  transition: border-radius 0.4s ease;
+}
+
+.contact-trigger.open {
+  border-radius: 1.4em;
+  cursor: default;
+}
+
+.contact-trigger > img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: filter 0.3s ease;
+}
+
+.contact-trigger:not(.open):hover > img {
+  filter: blur(4px) brightness(0.65);
+}
+
+.contact-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.contact-trigger:not(.open):hover .contact-overlay {
+  opacity: 1;
+}
+
+.contact-overlay span {
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.contact-form-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.4em 1.6em 1.2em;
+  box-sizing: border-box;
+  background: rgba(20, 10, 40, 0.55);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.contact-trigger.open .contact-form-panel {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.contact-trigger.open > img {
+  filter: blur(6px) brightness(0.5);
+}
+
+.contact-form-panel h3 {
+  color: #fff;
+  text-align: center;
+  margin: 0 0 0.9em;
+  font-size: 0.85em;
+  letter-spacing: 0.35em;
+  font-weight: 400;
+}
+
+.contact-form-panel form {
+  width: 100%;
+}
+
+.contact-form-panel input,
+.contact-form-panel textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 0.5em;
+  padding: 0.5em 0.75em;
+  margin-bottom: 0.55em;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.75em;
+  outline: none;
+  transition: background 0.2s ease;
+}
+
+.contact-form-panel input:focus,
+.contact-form-panel textarea:focus {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.contact-form-panel input::placeholder,
+.contact-form-panel textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.contact-form-panel textarea {
+  resize: none;
+}
+
+.contact-form-panel button[type="submit"] {
+  width: 100%;
+  padding: 0.5em;
+  background: rgba(54, 0, 96, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2em;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.75em;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-top: 0.2em;
+}
+
+.contact-form-panel button[type="submit"]:hover {
+  background: rgba(54, 0, 96, 0.9);
+}
+
+.contact-form-close {
+  position: absolute;
+  top: 0.6em;
+  right: 0.75em;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.2em;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.contact-form-close:hover {
+  color: #fff;
+}
+
 div>h1 {
   display: inline-block;
   font-size: 15px;
