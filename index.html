@@ -106,9 +106,9 @@
       const contactFormClose = document.getElementById('contactFormClose')
       const contactFormPanel = document.querySelector('.contact-form-panel')
 
-      const lang = 'ja' // デバッグ用: 日本語を強制
+      // const lang = 'ja' // デバッグ用: 日本語を強制
       // const lang = 'en' // デバッグ用: 英語を強制
-      // const lang = (navigator.language || '').toLowerCase()
+      const lang = (navigator.language || '').toLowerCase()
 
       const isJa = lang.startsWith('ja')
 
