@@ -105,9 +105,9 @@
       const contactFormClose = document.getElementById('contactFormClose')
       const contactFormPanel = document.querySelector('.contact-form-panel')
 
-      const lang = 'ja' // デバッグ用: 日本語を強制
+      // const lang = 'ja' // デバッグ用: 日本語を強制
       // const lang = 'en' // デバッグ用: 英語を強制
-      // const lang = (navigator.language || '').toLowerCase()
+      const lang = (navigator.language || '').toLowerCase()
 
       const isJa = lang.startsWith('ja')
 
@@ -123,6 +123,61 @@
         document.getElementById('formMessage').placeholder = 'お言葉'
         document.getElementById('formSend').textContent = '送信'
       }
+
+      const contactForm = document.querySelector('.contact-form-inner form')
+      contactForm.setAttribute('novalidate', '')
+
+        ;['formName', 'formEmail', 'formMessage'].forEach(id => {
+          const span = document.createElement('span')
+          span.className = 'field-error'
+          document.getElementById(id).insertAdjacentElement('afterend', span)
+        })
+
+      const errEmpty = isJa ? '空白です' : 'Please fill in this field'
+      const errEmail = isJa ? 'メールアドレスですか' : 'Please enter a valid email address'
+
+      function showError(id, msg) {
+        document.getElementById(id).nextElementSibling.textContent = msg
+      }
+      function clearErrors() {
+        contactForm.querySelectorAll('.field-error').forEach(s => s.textContent = '')
+      }
+
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        clearErrors()
+
+        const name = document.getElementById('formName')
+        const email = document.getElementById('formEmail')
+        const message = document.getElementById('formMessage')
+        let valid = true
+
+        if (!name.value.trim()) { showError('formName', errEmpty); valid = false }
+        if (!email.value.trim()) { showError('formEmail', errEmpty); valid = false }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { showError('formEmail', errEmail); valid = false }
+        if (!message.value.trim()) { showError('formMessage', errEmpty); valid = false }
+        if (!valid) return
+
+        const inner = document.querySelector('.contact-form-inner')
+        const successMsg = isJa
+          ? `<h3 class="contact-result-title">お問い合わせありがとうございました!</h3>
+             <p class="contact-result-body">送信が完了しました。後日、折り返しご連絡させていただきます。しばらくしても連絡がない場合は、ご入力の連絡先に誤りがあった可能性がございます。迷惑フォルダもご確認の上、再度ご連絡をお願いします。</p>`
+          : `<h3 class="contact-result-title">Thank you!</h3>
+             <p class="contact-result-body">Your transmission has been completed. I will contact you shortly. If you do not hear from me after a while, there may have been an error in the contact information. Please check your spam folder and contact me again.</p>`
+        const failMsg = isJa
+          ? `<p class="contact-result-body">送信に失敗しました。もう一度お試しください。</p>`
+          : `<p class="contact-result-body">Something went wrong. Please try again.</p>`
+
+        // inner.innerHTML = successMsg; return // デバッグ用: 完了メッセージを確認
+        // inner.innerHTML = failMsg; return // デバッグ用: エラーメッセージを確認
+
+        const res = await fetch(contactForm.action, {
+          method: 'POST',
+          body: new FormData(contactForm),
+          headers: { Accept: 'application/json' }
+        })
+        inner.innerHTML = res.ok ? successMsg : failMsg
+      })
 
       function openContact() {
         contactTrigger.classList.add('open')

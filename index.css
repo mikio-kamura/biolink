@@ -214,6 +214,34 @@ div>img {
   color: #fff;
 }
 
+.contact-result-title {
+  color: #360060;
+  font-size: 0.85em;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin: 0 0 0.7em;
+}
+
+.contact-result-body {
+  color: rgba(54, 0, 96, 0.45);
+  font-size: 0.68em;
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+  text-align: center;
+  margin: 0;
+}
+
+.field-error {
+  display: block;
+  font-size: 0.65em;
+  color: #360060;
+  letter-spacing: 0.03em;
+  margin-top: -0.3em;
+  margin-bottom: 0.25em;
+  min-height: 0.9em;
+}
+
 
 div>h1 {
   display: inline-block;
