@@ -47,17 +47,19 @@
         <div class="contact-trigger" id="contactTrigger">
           <img src="./images/mikio.jpg" />
           <div class="contact-overlay">
-            <span>Contact</span>
+            <span id="overlayGreeting"></span>
           </div>
           <div class="contact-form-panel">
             <button class="contact-form-close" id="contactFormClose">×</button>
-            <h3>Contact</h3>
-            <form action="https://formspree.io/f/mdajjgbb" method="POST">
-              <input type="text" name="name" placeholder="Name" required />
-              <input type="email" name="email" placeholder="Email" required />
-              <textarea name="message" placeholder="Message" rows="2" required></textarea>
-              <button type="submit">Send</button>
-            </form>
+            <div class="contact-form-inner">
+              <h3 id="formTitle">Contact me!</h3>
+              <form action="https://formspree.io/f/mdajjgbb" method="POST">
+                <input type="text" name="name" id="formName" placeholder="Name" required />
+                <input type="email" name="email" id="formEmail" placeholder="Email" required />
+                <textarea name="message" id="formMessage" placeholder="Message" rows="2" required></textarea>
+                <button type="submit" id="formSend">Send</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -98,19 +100,60 @@
 
     </main>
 
-  <script>
-    const contactTrigger = document.getElementById('contactTrigger')
-    const contactFormClose = document.getElementById('contactFormClose')
+    <script>
+      const contactTrigger = document.getElementById('contactTrigger')
+      const contactFormClose = document.getElementById('contactFormClose')
+      const contactFormPanel = document.querySelector('.contact-form-panel')
 
-    contactTrigger.addEventListener('click', () => {
-      contactTrigger.classList.add('open')
-    })
+      const lang = 'ja' // デバッグ用: 日本語を強制
+      // const lang = 'en' // デバッグ用: 英語を強制
+      // const lang = (navigator.language || '').toLowerCase()
 
-    contactFormClose.addEventListener('click', (e) => {
-      e.stopPropagation()
-      contactTrigger.classList.remove('open')
-    })
-  </script>
+      const isJa = lang.startsWith('ja')
+
+      document.getElementById('overlayGreeting').textContent =
+        isJa ? 'こんにちは!' :
+          lang.startsWith('nl') ? 'Hoi!' :
+            'Hello!'
+
+      if (isJa) {
+        document.getElementById('formTitle').textContent = 'お話しませんか'
+        document.getElementById('formName').placeholder = 'お名前'
+        document.getElementById('formEmail').placeholder = 'メールアドレス'
+        document.getElementById('formMessage').placeholder = 'お言葉'
+        document.getElementById('formSend').textContent = '送信'
+      }
+
+      function openContact() {
+        contactTrigger.classList.add('open')
+      }
+
+      function closeContact() {
+        contactTrigger.classList.remove('open')
+      }
+
+      contactTrigger.addEventListener('click', (e) => {
+        if (!contactTrigger.classList.contains('open')) {
+          e.stopPropagation()
+          openContact()
+        }
+      })
+
+      contactFormPanel.addEventListener('click', (e) => {
+        e.stopPropagation()
+      })
+
+      contactFormClose.addEventListener('click', (e) => {
+        e.stopPropagation()
+        closeContact()
+      })
+
+      document.addEventListener('click', (e) => {
+        if (contactTrigger.classList.contains('open') && !contactFormPanel.contains(e.target)) {
+          closeContact()
+        }
+      })
+    </script>
 </body>
 
 </html>
