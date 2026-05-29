@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>mikio - Links</title>
+  <title>Links of mikio | ミキオ | Miki Okamura | 岡村美紀</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="ミキオ | Miki Okamura | 岡村美紀 の X, GitHub, researchmap, Instagram" />
   <link rel="stylesheet" href="./index.css" />
@@ -48,6 +48,9 @@
           <img src="./images/mikio.jpg" />
           <div class="contact-overlay">
             <span id="overlayGreeting"></span>
+            <small class="overlay-hint overlay-hint-hover" id="overlayHintHover"></small>
+            <div id="overlaySubtext"></div>
+            <small class="overlay-hint overlay-hint-greeting" id="overlayHintGreeting"></small>
           </div>
           <span class="contact-deco" id="contactDeco"></span>
           <div class="contact-form-panel">
@@ -119,6 +122,17 @@
           lang.startsWith('nl') ? 'Hoi!' :
             'Hello!'
 
+      document.getElementById('overlaySubtext').innerHTML =
+        isJa ?
+          `<p>私は筑波大学博士課程在籍のHCI系研究者です。</p>
+          <p>オノマトペの音象徴性を軸に、</p>
+          <p>らくがきのような道具や現象について考えています。</p>`
+          :
+          `<p>I'm a Ph.D. student in HCI</p> 
+           <p>at the Digital Nature Group, University of Tsukuba,</p>
+           <p>exploring doodle-like interface and phenomena</p>
+           <p>with a focus on sound symbolism in onomatopoeia.</p>`
+
       if (isJa) {
         document.getElementById('formTitle').textContent = 'お話しませんか'
         document.getElementById('formName').placeholder = 'お名前'
@@ -171,7 +185,7 @@
           ? `<p class="contact-result-body">送信に失敗しました。もう一度お試しください。</p>`
           : `<p class="contact-result-body">Something went wrong. Please try again.</p>`
 
-        // inner.innerHTML = successMsg; return // デバッグ用: 完了メッセージを確認
+        // inner.innerHTML = successMsg; document.getElementById('contactDeco').textContent = isJa ? 'わ〜い！' : 'Yippee!'; return // デバッグ用: 完了メッセージを確認
         // inner.innerHTML = failMsg; return // デバッグ用: エラーメッセージを確認
 
         const res = await fetch(contactForm.action, {
@@ -180,31 +194,41 @@
           headers: { Accept: 'application/json' }
         })
         inner.innerHTML = res.ok ? successMsg : failMsg
+        if (res.ok) document.getElementById('contactDeco').textContent = isJa ? 'わ〜い！' : 'Yippee!'
       })
 
       const isTouchOnly = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+      const hintText = isTouchOnly ? 'Tap!' : 'Click!'
+      document.getElementById('overlayHintHover').textContent = hintText
+      document.getElementById('overlayHintGreeting').textContent = hintText
+
       let greetingTimer = null
 
       function openContact() {
-        contactTrigger.classList.remove('greeting')
+        contactTrigger.classList.remove('greeting', 'peeking')
         clearTimeout(greetingTimer)
         contactTrigger.classList.add('open')
       }
 
       function closeContact() {
-        contactTrigger.classList.remove('open')
-        contactTrigger.classList.remove('greeting')
+        contactTrigger.classList.remove('open', 'greeting', 'peeking')
         clearTimeout(greetingTimer)
       }
 
       contactTrigger.addEventListener('click', (e) => {
         if (contactTrigger.classList.contains('open')) return
+        if (window.getSelection().toString().length > 0) return
 
         e.stopPropagation()
 
-        if (isTouchOnly && !contactTrigger.classList.contains('greeting')) {
+        if (!contactTrigger.classList.contains('greeting') && !contactTrigger.classList.contains('peeking')) {
+          contactTrigger.classList.add(isTouchOnly ? 'peeking' : 'greeting')
+          return
+        }
+
+        if (contactTrigger.classList.contains('peeking')) {
+          contactTrigger.classList.remove('peeking')
           contactTrigger.classList.add('greeting')
-          greetingTimer = setTimeout(openContact, 1500)
           return
         }
 
@@ -223,7 +247,7 @@
       document.addEventListener('click', (e) => {
         if (contactTrigger.classList.contains('open') && !contactFormPanel.contains(e.target)) {
           closeContact()
-        } else if (contactTrigger.classList.contains('greeting') && !contactTrigger.contains(e.target)) {
+        } else if ((contactTrigger.classList.contains('greeting') || contactTrigger.classList.contains('peeking')) && !contactTrigger.contains(e.target)) {
           closeContact()
         }
       })
