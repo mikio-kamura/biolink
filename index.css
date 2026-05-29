@@ -55,6 +55,25 @@ div>img {
   cursor: default;
 }
 
+.contact-deco {
+  position: absolute;
+  top: -2%;
+  right: 13%;
+  font-size: 0.5em;
+  color: rgba(54, 0, 96, 0.5);
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  transform: rotate(-14deg);
+  pointer-events: none;
+  z-index: 102;
+  opacity: 0;
+  transition: opacity 0.35s ease 0.15s;
+}
+
+.contact-trigger.open .contact-deco {
+  opacity: 1;
+}
+
 .contact-trigger>img {
   width: 100%;
   height: auto;
@@ -63,9 +82,9 @@ div>img {
   transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-.contact-trigger:not(.open):hover>img {
+.contact-trigger:not(.open):hover>img,
+.contact-trigger.greeting>img {
   filter: blur(10px);
-  /* filter: blur(4px) brightness(0.65); */
 }
 
 .contact-overlay {
@@ -83,7 +102,8 @@ div>img {
   pointer-events: none;
 }
 
-.contact-trigger:not(.open):hover .contact-overlay {
+.contact-trigger:not(.open):hover .contact-overlay,
+.contact-trigger.greeting .contact-overlay {
   opacity: 1;
 }
 
@@ -105,7 +125,7 @@ div>img {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.86);
   -webkit-mask-image: radial-gradient(ellipse at center, black 52%, transparent 76%);
   mask-image: radial-gradient(ellipse at center, black 52%, transparent 76%);
   opacity: 0;

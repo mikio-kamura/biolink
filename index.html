@@ -49,6 +49,7 @@
           <div class="contact-overlay">
             <span id="overlayGreeting"></span>
           </div>
+          <span class="contact-deco" id="contactDeco"></span>
           <div class="contact-form-panel">
             <button class="contact-form-close" id="contactFormClose">×</button>
             <div class="contact-form-inner">
@@ -105,11 +106,13 @@
       const contactFormClose = document.getElementById('contactFormClose')
       const contactFormPanel = document.querySelector('.contact-form-panel')
 
-      // const lang = 'ja' // デバッグ用: 日本語を強制
+      const lang = 'ja' // デバッグ用: 日本語を強制
       // const lang = 'en' // デバッグ用: 英語を強制
-      const lang = (navigator.language || '').toLowerCase()
+      // const lang = (navigator.language || '').toLowerCase()
 
       const isJa = lang.startsWith('ja')
+
+      document.getElementById('contactDeco').textContent = isJa ? 'お気軽に!' : 'Feel free!'
 
       document.getElementById('overlayGreeting').textContent =
         isJa ? 'こんにちは!' :
@@ -179,19 +182,33 @@
         inner.innerHTML = res.ok ? successMsg : failMsg
       })
 
+      const isTouchOnly = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+      let greetingTimer = null
+
       function openContact() {
+        contactTrigger.classList.remove('greeting')
+        clearTimeout(greetingTimer)
         contactTrigger.classList.add('open')
       }
 
       function closeContact() {
         contactTrigger.classList.remove('open')
+        contactTrigger.classList.remove('greeting')
+        clearTimeout(greetingTimer)
       }
 
       contactTrigger.addEventListener('click', (e) => {
-        if (!contactTrigger.classList.contains('open')) {
-          e.stopPropagation()
-          openContact()
+        if (contactTrigger.classList.contains('open')) return
+
+        e.stopPropagation()
+
+        if (isTouchOnly && !contactTrigger.classList.contains('greeting')) {
+          contactTrigger.classList.add('greeting')
+          greetingTimer = setTimeout(openContact, 1500)
+          return
         }
+
+        openContact()
       })
 
       contactFormPanel.addEventListener('click', (e) => {
@@ -205,6 +222,8 @@
 
       document.addEventListener('click', (e) => {
         if (contactTrigger.classList.contains('open') && !contactFormPanel.contains(e.target)) {
+          closeContact()
+        } else if (contactTrigger.classList.contains('greeting') && !contactTrigger.contains(e.target)) {
           closeContact()
         }
       })
